@@ -11,7 +11,7 @@
   const VERDICTS = ['pass', 'fail', 'pending'];
   const SEVERITIES = ['high', 'med', 'low'];
   const JOB_STATES = { running: '运行中', done: '完成', stopped: '已停止' };
-  const ID = /^T\d{1,6}$/;
+  const ID = /^RC\d{1,6}$/;   // rc-car 的任务编号（xau-lab 是 T）
   const ESC = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '`': '&#96;' };
 
   const own = (o, k) => typeof k === 'string' && Object.prototype.hasOwnProperty.call(o, k);
@@ -336,8 +336,8 @@
       $('#updated').textContent = latest ? '更新 ' + latest : '';
       state(null);
       scan();
-      liveOn = true;
-      loadLive();
+      // 「正在执行」读的是 status 表 = xau-lab 的下载/回测任务，rc-car 不显示
+      liveOn = false;
     } catch (e) { if (my === gen) problem(e); }
   }
   function age() {
@@ -386,7 +386,7 @@
   async function loadTask() {
     const my = ++gen;
     const id = new URLSearchParams(location.search).get('id') || '';
-    if (!ID.test(id)) return state('error', '任务编号无效。');
+    if (!ID.test(id) || !/^RC/.test(id)) return state('error', '任务编号无效。');   // 只显示 rc-car 的 RC 任务
     state('loading', '读取中…');
     try {
       const rows = await api('/rest/v1/tasks?select=id,slug,data,updated_at&id=eq.' + id);
