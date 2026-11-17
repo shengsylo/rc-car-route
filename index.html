@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<title>rc-car</title>
+<link rel="stylesheet" href="site.css">
+<!-- Static shell only: no research content lives in this repo. app.js reads it from a private database after sign-in. -->
+<script>try{if(localStorage.getItem('rc.session'))document.documentElement.dataset.auth='in'}catch(e){}</script>
+</head>
+<body data-page="index">
+<div class="scrollbar" aria-hidden="true"></div>
+<main>
+  <nav class="top">
+    <span class="brand"><i></i>rc-car</span>
+    <span class="nav-r authed"><span id="updated"></span><button type="button" class="signout" id="signout">退出</button></span>
+  </nav>
+  <section class="intro">
+    <div class="intro-copy">
+      <p class="eyebrow">RC 遥控赛车平台 · underground</p>
+      <h1 id="intro-title">RC 地下赛车 · 任务板</h1>
+      <p>远程遥控真车：固件、RC Studio、3D 零件、FPV、购物清单的进度。</p>
+      <p class="cta"><a class="studio-link" href="studio/">打开 RC Studio 3D（网页演示版）→</a></p>
+      <form class="login" method="post" action="#" autocomplete="on">
+        <h2>登录后查看</h2>
+        <p>任务进度存在私有数据库，只有你的账号能看。</p>
+        <label>用户名<input type="text" name="email" autocomplete="username" autocapitalize="none" spellcheck="false" required></label>
+        <label>密码<input type="password" name="password" autocomplete="current-password" required></label>
+        <button type="submit">登录</button>
+        <p class="msg" role="alert"></p>
+        <noscript><p class="msg">需要启用 JavaScript 才能登录。</p></noscript>
+      </form>
+      <ul class="tally authed" id="tally" hidden></ul>
+    </div>
+  </section>
+  <section class="live authed" id="live" hidden>
+    <h2>正在执行 <span id="live-age"></span></h2>
+    <div id="live-jobs"></div>
+  </section>
+  <p class="state authed" id="state" role="status" hidden></p>
+  <section class="cards authed" id="cards" hidden></section>
+</main>
+<script src="config.js"></script>
+<script src="site.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
